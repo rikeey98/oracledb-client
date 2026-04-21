@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any, Iterator, Optional, Union
 
 import oracledb
 import yaml
@@ -21,7 +21,7 @@ class OracleDBClient:
         self.dsn = self._build_dsn()
         self.lib_dir = self._require_config("ORACLE_CLIENT_LIB_DIR")
         self.config_dir = self._optional_config("ORACLE_CLIENT_CONFIG_DIR")
-        self.connection: oracledb.Connection | None = None
+        self.connection: Optional[oracledb.Connection] = None
 
         self._init_thick_mode()
 
@@ -52,7 +52,7 @@ class OracleDBClient:
             raise ValueError(f"Required config value is missing: {name}")
         return str(value)
 
-    def _optional_config(self, name: str) -> str | None:
+    def _optional_config(self, name: str) -> Optional[str]:
         value = self.config.get(name)
         if value in (None, ""):
             return None
@@ -110,7 +110,7 @@ class OracleDBClient:
     def _execute(
         cursor: oracledb.Cursor,
         query: str,
-        params: dict[str, Any] | list[Any] | tuple[Any, ...] | None = None,
+        params: Optional[Union[dict[str, Any], list[Any], tuple[Any, ...]]] = None,
     ) -> None:
         if params is None:
             cursor.execute(query)
@@ -129,7 +129,7 @@ class OracleDBClient:
     def select(
         self,
         query: str,
-        params: dict[str, Any] | list[Any] | tuple[Any, ...] | None = None,
+        params: Optional[Union[dict[str, Any], list[Any], tuple[Any, ...]]] = None,
     ) -> list[dict[str, Any]]:
         with self.cursor() as cursor:
             self._execute(cursor, query, params)
@@ -140,7 +140,7 @@ class OracleDBClient:
     def execute_dml(
         self,
         query: str,
-        params: dict[str, Any] | list[Any] | tuple[Any, ...] | None = None,
+        params: Optional[Union[dict[str, Any], list[Any], tuple[Any, ...]]] = None,
         *,
         auto_commit: bool = True,
     ) -> int:
@@ -159,7 +159,7 @@ class OracleDBClient:
     def insert(
         self,
         query: str,
-        params: dict[str, Any] | list[Any] | tuple[Any, ...] | None = None,
+        params: Optional[Union[dict[str, Any], list[Any], tuple[Any, ...]]] = None,
         *,
         auto_commit: bool = True,
     ) -> int:
@@ -168,7 +168,7 @@ class OracleDBClient:
     def update(
         self,
         query: str,
-        params: dict[str, Any] | list[Any] | tuple[Any, ...] | None = None,
+        params: Optional[Union[dict[str, Any], list[Any], tuple[Any, ...]]] = None,
         *,
         auto_commit: bool = True,
     ) -> int:
@@ -177,7 +177,7 @@ class OracleDBClient:
     def delete(
         self,
         query: str,
-        params: dict[str, Any] | list[Any] | tuple[Any, ...] | None = None,
+        params: Optional[Union[dict[str, Any], list[Any], tuple[Any, ...]]] = None,
         *,
         auto_commit: bool = True,
     ) -> int:

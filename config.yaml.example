@@ -16,3 +16,7 @@ ORACLE_CLIENT_LIB_DIR: /path/to/instantclient
 
 # Optional tnsnames.ora / sqlnet.ora directory
 # ORACLE_CLIENT_CONFIG_DIR: /path/to/network/admin
+
+# Windows examples
+# ORACLE_CLIENT_LIB_DIR: 'C:\oracle\instantclient_23_5'
+# ORACLE_CLIENT_CONFIG_DIR: 'C:\oracle\network\admin'
