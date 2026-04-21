@@ -1,0 +1,18 @@
+# Required credentials
+ORACLE_USER: your_user
+ORACLE_PASSWORD: your_password
+
+# Option 1: use a full connect descriptor / easy connect string
+ORACLE_DSN: localhost:1521/XEPDB1
+
+# Option 2: build DSN from host + service name or SID
+# ORACLE_HOST: localhost
+# ORACLE_PORT: 1521
+# ORACLE_SERVICE_NAME: XEPDB1
+# ORACLE_SID: XE
+
+# Thick mode Oracle Instant Client path
+ORACLE_CLIENT_LIB_DIR: /path/to/instantclient
+
+# Optional tnsnames.ora / sqlnet.ora directory
+# ORACLE_CLIENT_CONFIG_DIR: /path/to/network/admin
